@@ -1,12 +1,12 @@
 <?php
-
 namespace DipenduRoy\LumenZipkin;
 
 use Illuminate\Support\ServiceProvider;
-use DipenduRoy\LumenZipkin\LumenZipkinController;
+use DipenduRoy\LumenZipkin\ZipkinTrace;
 
-class LumenZipkinServiceProvider extends ServiceProvider {
-    
+class LumenZipkinServiceProvider extends ServiceProvider
+{
+
     /**
      * Bootstrap the application services.
      *
@@ -16,7 +16,7 @@ class LumenZipkinServiceProvider extends ServiceProvider {
     {
         //
     }
-    
+
     /**
      * Register the application services.
      *
@@ -24,12 +24,11 @@ class LumenZipkinServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        //Register Our Package routes
-        include __DIR__.'/routes.php';
-        
-        // Let Laravel Ioc Container know about our Controller
-        $this->app->make('DipenduRoy\LumenZipkin\LumenZipkinController');
-        //$this->app->make(LumenZipkinController::class);
+        $this->app->singleton(ZipkinTrace::class, function ($app) {
+            return new ZipkinTrace(! in_array('x-b3-traceid', app('Illuminate\Http\Request')->headers->all())); // && !in_array('x-b3-traceid',app('Illuminate\Http\Request')->headers->all()));
+        });
+        $this->app->singleton('Trace\ZipkinTrace', function ($app) {
+            return $app->make(ZipkinTrace::class);
+        });
     }
-    
 }
