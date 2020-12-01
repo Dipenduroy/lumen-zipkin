@@ -23,5 +23,6 @@
 	},
 	"scripts" : {
 		"run-zipkin": "docker run -p 9411:9411 --restart=always --name=openzipkin -d openzipkin/zipkin"
-	}
+	},
+	"license": "MIT"
 }
