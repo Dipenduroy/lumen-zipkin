@@ -25,7 +25,7 @@ class LumenZipkinServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(ZipkinTrace::class, function ($app) {
-            return new ZipkinTrace(! in_array('x-b3-traceid', app('Illuminate\Http\Request')->headers->all())); // && !in_array('x-b3-traceid',app('Illuminate\Http\Request')->headers->all()));
+            return new ZipkinTrace(!in_array('x-b3-traceid',array_keys(app('Illuminate\Http\Request')->headers->all())));
         });
         $this->app->singleton('Trace\ZipkinTrace', function ($app) {
             return $app->make(ZipkinTrace::class);

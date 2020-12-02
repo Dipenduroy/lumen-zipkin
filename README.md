@@ -63,10 +63,11 @@ Below example traces all guzzle calls between microservices. Similarly refer [zi
 
 ```
 	//Set your application variables below
-	$baseUri='http://local.app/'
+	$baseUri='http://local.app/';
 	$method='POST';
 	$requestUrl='example/url';
 	$queryString='?filter=category';
+	$formParams=[];
 	
 	//Get Zipkin Trace Object
 	$ZipkinTrace=app('Trace\ZipkinTrace');
